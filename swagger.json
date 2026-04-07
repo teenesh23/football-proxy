@@ -1,0 +1,202 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Football Data Proxy API",
+    "description": "Flat proxy for football-data.org — designed for K2 Cloud",
+    "version": "1.0"
+  },
+  "host": "YOUR-APP-NAME.onrender.com",
+  "basePath": "/",
+  "schemes": ["https"],
+  "produces": ["application/json"],
+  "paths": {
+    "/competitions": {
+      "get": {
+        "operationId": "ListCompetitions",
+        "summary": "List all competitions",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Flat list of competitions",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id":        { "type": "integer" },
+                  "name":      { "type": "string" },
+                  "code":      { "type": "string" },
+                  "type":      { "type": "string" },
+                  "emblem":    { "type": "string" },
+                  "area_name": { "type": "string" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/competitions/{code}": {
+      "get": {
+        "operationId": "GetCompetition",
+        "summary": "Get one competition",
+        "parameters": [
+          { "name": "code", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Competition",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id":        { "type": "integer" },
+                "name":      { "type": "string" },
+                "code":      { "type": "string" },
+                "type":      { "type": "string" },
+                "emblem":    { "type": "string" },
+                "area_name": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/standings/{code}": {
+      "get": {
+        "operationId": "GetStandings",
+        "summary": "Get league standings",
+        "parameters": [
+          { "name": "code",     "in": "path",  "required": true,  "type": "string" },
+          { "name": "season",   "in": "query", "required": false, "type": "integer" },
+          { "name": "matchday", "in": "query", "required": false, "type": "integer" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Flat standings table",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "position":      { "type": "integer" },
+                  "team_id":       { "type": "integer" },
+                  "team_name":     { "type": "string" },
+                  "team_short":    { "type": "string" },
+                  "played":        { "type": "integer" },
+                  "won":           { "type": "integer" },
+                  "draw":          { "type": "integer" },
+                  "lost":          { "type": "integer" },
+                  "points":        { "type": "integer" },
+                  "goals_for":     { "type": "integer" },
+                  "goals_against": { "type": "integer" },
+                  "goal_diff":     { "type": "integer" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/matches/{code}": {
+      "get": {
+        "operationId": "GetMatches",
+        "summary": "Get matches for a competition",
+        "parameters": [
+          { "name": "code",     "in": "path",  "required": true,  "type": "string" },
+          { "name": "season",   "in": "query", "required": false, "type": "integer" },
+          { "name": "matchday", "in": "query", "required": false, "type": "integer" },
+          { "name": "status",   "in": "query", "required": false, "type": "string" },
+          { "name": "dateFrom", "in": "query", "required": false, "type": "string" },
+          { "name": "dateTo",   "in": "query", "required": false, "type": "string" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Flat list of matches",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id":             { "type": "integer" },
+                  "utc_date":       { "type": "string" },
+                  "status":         { "type": "string" },
+                  "matchday":       { "type": "integer" },
+                  "home_team_id":   { "type": "integer" },
+                  "home_team_name": { "type": "string" },
+                  "away_team_id":   { "type": "integer" },
+                  "away_team_name": { "type": "string" },
+                  "winner":         { "type": "string" },
+                  "home_score":     { "type": "integer" },
+                  "away_score":     { "type": "integer" },
+                  "home_halftime":  { "type": "integer" },
+                  "away_halftime":  { "type": "integer" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scorers/{code}": {
+      "get": {
+        "operationId": "GetTopScorers",
+        "summary": "Get top scorers",
+        "parameters": [
+          { "name": "code",   "in": "path",  "required": true,  "type": "string" },
+          { "name": "season", "in": "query", "required": false, "type": "integer" },
+          { "name": "limit",  "in": "query", "required": false, "type": "integer" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Flat scorers list",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "player_id":          { "type": "integer" },
+                  "player_name":        { "type": "string" },
+                  "player_nationality": { "type": "string" },
+                  "team_id":            { "type": "integer" },
+                  "team_name":          { "type": "string" },
+                  "goals":              { "type": "integer" },
+                  "assists":            { "type": "integer" },
+                  "penalties":          { "type": "integer" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/teams/{id}": {
+      "get": {
+        "operationId": "GetTeam",
+        "summary": "Get team info",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "type": "integer" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Team details",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id":         { "type": "integer" },
+                "name":       { "type": "string" },
+                "short_name": { "type": "string" },
+                "tla":        { "type": "string" },
+                "crest":      { "type": "string" },
+                "address":    { "type": "string" },
+                "website":    { "type": "string" },
+                "founded":    { "type": "integer" },
+                "colors":     { "type": "string" },
+                "venue":      { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
