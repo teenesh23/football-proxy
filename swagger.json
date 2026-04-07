@@ -5,7 +5,7 @@
     "description": "Flat proxy for football-data.org — designed for K2 Cloud",
     "version": "1.0"
   },
-  "host": "YOUR-APP-NAME.onrender.com",
+  "host": "https://football-proxy-xklx.onrender.com",
   "basePath": "/",
   "schemes": ["https"],
   "produces": ["application/json"],
